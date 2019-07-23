@@ -184,7 +184,9 @@
                                    $kj_content= $xiazhu_money * 1;
                                    $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1',tswf='$tswf' WHERE id=$id");
                           //下注小单/大双/小双/大单开奖13/14/对子/顺子/豹子/中奖回本
-                        }elseif((check_str($str,"小单/") || check_str($str,"大双/") || check_str($str,"小双/") || check_str($str,"大单/")) && ($kj_he==13 || $kj_he==14 || $tswf==3 || $tswf==2 || $tswf==1))
+                        }elseif(
+((check_str($str,"小单/") || check_str($str,"大双/") || check_str($str,"小双/") || check_str($str,"大单/")) && ($kj_he==13 || $kj_he==14)) ||
+((check_str($str,"小单/") || check_str($str,"大双/") || check_str($str,"小双/") || check_str($str,"大单/")) && ($tswf==3 || $tswf==2 || $tswf==1)))
                                 {
                                     $b  += $xiazhu_money * 1;
                                     $kj_content= $xiazhu_money * 1;
