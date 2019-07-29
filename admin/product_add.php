@@ -87,7 +87,7 @@ layer.ready(function(){ //为了layer.ext.js加载完毕再执行
 				KindEditor.ready(function(K) {
 					editor = K.create('textarea[name="gamedescription"]', {
 						allowFileManager : true,
-						width:'1115px',
+						width:'90%',
 						height:'365px',
 						extraFileUploadParams : {
 							sessionid :  '<?php echo session_id(); ?>'

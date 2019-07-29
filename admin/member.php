@@ -240,9 +240,14 @@ $num=$dosql->GetTotalRow($one);
                 <td align="center"><?php echo date("Y-m-d H:i:s",$row['regtime']);?></td>
                 <td align="center">
                   <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="后台充值" style="cursor:pointer" onclick="pay_add('<?php echo $row['id'];?>');"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a></div>
+
                   <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="充值记录" style="cursor:pointer" onclick="paylist('<?php echo $row['id'];?>','<?php echo $row['ucode'];?>','<?php echo $row['nickname'];?>');"><i class="fa fa fa-lastfm" aria-hidden="true"></i></a></div>
+
                   <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="下注记录" style="cursor:pointer" onclick="xiazhuorder('<?php echo $row['id'];?>','<?php echo $row['nickname'];?>');"><i class="fa fa-chrome" aria-hidden="true"></i></a></div>
-                  <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="编辑会员信息" href="member_update.php?id=<?php echo $row['id']; ?>"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i></a></div></td>
+
+                  <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="编辑会员信息" href="member_update.php?id=<?php echo $row['id']; ?>"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i></a></div>
+
+                </td>
                 <td width="3%" align="center">
                   <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="提现账号" style="cursor:pointer" onclick="pickmoney('<?php echo $row['id'];?>','<?php echo $row['telephone'];?>');"><i class="fa fa-clone" aria-hidden="true"></i></a></div>
                   <div id="jsddm" style="margin-top: 6px;margin-bottom: 8px;"><a title="推荐会员注册记录" style="cursor:pointer" onclick="tuijian_shopping('<?php echo $row['ucode'];?>');"><i class="fa fa-share" aria-hidden="true"></i></a></div>

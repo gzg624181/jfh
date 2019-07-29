@@ -57,6 +57,35 @@ else if($action == 'del3'){
   $gourl="allorder_sh.php";
   header("location:$gourl");
   exit();
+
+}elseif($action =="quick_scroing"){
+  if(is_numeric($keyword)){
+    $r=$dosql->GetOne("SELECT id FROM `#@__members` where telephone='$keyword' or ucode=$keyword");
+    if(is_array($r)){
+    $id = $r['id'];
+    $gourl= "quick_scroing_content.php?id=".$id;
+    header("location:$gourl");
+    }else{
+      ShowMsg("搜索关键字暂未查到会员信息，请重新输入!",-1);
+    }
+  }else{
+      ShowMsg("请输入用户账号或者推荐码进行查询!",-1);
+
+  }
+}elseif($action == "huishui"){
+  //将回水的记录保存下来，同时向用户的账号里面增加回水的金额，向账户明细里面保存记录
+  //1.向用户的账号里面添加回水的金额
+  $dosql->ExecNoneQuery("UPDATE pmw_members set money = money + $money where id=$uid");
+
+  //2.保存数据明细
+  $dosql->ExecNoneQuery("INSERT INTO pmw_huishui (telephone,gameid,gametypes,money,addtime,uid,adminname,adminlevel,tj_time,yingkui_money) values ('$telephone',$gameid,'$gametypes','$money','$addtime',$uid,'$admin',$adminlevel,'$tj_time','$yingkui_money')");
+
+  //3.向账户明细里面添加保存记录
+  $randnumber=rand(100000,999999);
+  $chargeorder=date("YmdHis").$randnumber;
+  $time_list = time();
+  $dosql->ExecNoneQuery("INSERT INTO pmw_record (gid,money_list,types,mid,time_list,chargeorder) values ($gameid,'$money','fanshui',$uid,$time_list,'$chargeorder')");
+  ShowMsg("反水金额添加成功！",-1);
 }
 
 //无条件返回

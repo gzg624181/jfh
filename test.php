@@ -252,11 +252,44 @@ for($i=1;$i<201;$i++){
 // $srr = json_decode($arr,true);
 // print_r($srr);
 
-$url=$cfg_weburl.$cfg_get_kjstate;
+// $url=$cfg_weburl.$cfg_get_kjstate;
+//
+// $arr=https_request($url);
+//
+// $array=json_decode($arr,true);
+//
+// print_r($array);
 
-$arr=https_request($url);
+$today = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d'),date('Y')));
 
-$array=json_decode($arr,true);
+$today_end = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1);
 
-print_r($array);
+echo $today,'<br>';//今天开始时间
+
+echo $today_end,'<br>';//今天结束时间
+
+
+
+$w = date('w',strtotime($today));
+
+
+$this_mon = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-$w+1,date('Y')));
+
+$this_sun = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')+(7-$w),date('Y')));
+
+
+$this_mon1 = date("Y-m-d",strtotime($this_mon)-7*24*3600);
+
+$this_sun1 = date("Y-m-d",strtotime($this_sun)-7*24*3600);
+
+echo $this_mon1,'<br>';//本周一时间
+
+echo $this_sun1,'<br>';//本周日时间
+
+  echo "===============================<br></br>";
+  $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
+  echo $BeginDate;
+  echo "<br/>";
+  echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
+  echo "<br/>";
 ?>

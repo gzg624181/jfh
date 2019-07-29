@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="refresh" content="120">
 <title>开奖号码管理</title>
 <link href="templates/style/admin.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="templates/js/jquery.min.js"></script>

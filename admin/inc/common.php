@@ -402,7 +402,73 @@ function https_request($url,$data = null){
 		 		}
 
 
+function get_times()
+{
+	// code...
 
+	$today = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d'),date('Y')));
+
+	$today_end = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')+1,date('Y'))-1);
+
+	//今天开始时间戳
+	$today_timestamp = strtotime($today);
+
+  //今天截止时间戳
+  $today_end_timestamp = strtotime($today_end);
+
+
+	$w = date('w',strtotime($today));
+
+	$this_mon = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-$w+1,date('Y')));
+
+	$this_sun = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')+(7-$w),date('Y')));
+
+  //本周星期一  年 - 月 - 日
+	$this_mon_ymd = date("Y-m-d",strtotime($this_mon)-7*24*3600);
+
+	//本周星期日  年 - 月 - 日
+	$this_sun_ymd = date("Y-m-d",strtotime($this_sun)-7*24*3600);
+
+
+	//本周星期一时间戳
+
+	$this_mon_timestamp = strtotime($this_mon_ymd);
+
+	//本周星期日时间戳
+
+	$this_sun_timestamp = strtotime($this_sun_ymd);
+
+  //获取本月第一天日期
+	$beginDate=date('Y-m-01', strtotime(date("Y-m-d")));
+
+  //获取本月第一天的时间戳
+  $beginDate_timestamp = strtotime($beginDate);
+
+  //获取本月最后一天的日期
+  $lastDate= date('Y-m-d', strtotime("$beginDate +1 month -1 day"));
+
+	//获取本月最后一天的时间戳
+	$lastDate_timestamp = strtotime($lastDate);
+
+  $return = array(
+
+            "today_timestamp" => $today_timestamp,  //今天起始时间戳
+						"today_end_timestamp" => $today_end_timestamp, //今天截止时间戳
+						"this_mon_ymd" => $this_mon_ymd,  //本周星期一日期
+						"this_mon_timestamp" => $this_mon_timestamp,  //本周星期一时间戳
+						"this_sun_ymd" => $this_sun_ymd,  //本周星期日日期
+						"this_sun_timestamp" => $this_sun_timestamp,  //本周星期日时间戳
+						"beginDate" => $beginDate,        //本月第一天日期
+						"beginDate_timestamp"=>$beginDate_timestamp, //本月第一天时间戳
+						"lastDate" =>$lastDate,           //本月最后一天日期
+            "lastDate_timestamp"=>$lastDate_timestamp //本月第一天时间戳
+
+	);
+
+	return $return;
+
+
+}
 
 
 
