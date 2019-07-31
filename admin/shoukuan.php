@@ -53,6 +53,14 @@
 				  $type = "微信充值";
 				  $images="templates/default/images/weixinpay.png";
 				  break;
+			case 'qqpay':
+						  $type = "qq财付通充值";
+						  $images="templates/default/images/qqpay.jpg";
+						  break;
+			case 'yunshanfu':
+								  $type = "云闪付充值";
+								  $images="templates/default/images/yunshanfu.jpg";
+								  break;
 		}
 		?>
 		<tr align="left" class="dataTr">

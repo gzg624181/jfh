@@ -46,6 +46,13 @@ $action  = isset($action)  ? $action  : '';
 $keyword = isset($keyword) ? $keyword : '';
 $check = isset($check) ? $check : '';
 $r = $dosql->GetOne("SELECT * FROM pmw_members where id=$uid");
+//计算所有会员的会员总额
+$k = $dosql->GetOne("SELECT SUM(money) as money from pmw_huishui where tj_time='$xiazhu_ymd' and uid=$uid");
+if($k['money']!= NULL){
+$huishui_allmoney = $k['money'];
+}else{
+$huishui_allmoney = 0;
+}
 ?>
 </head>
 <body>
@@ -53,8 +60,11 @@ $r = $dosql->GetOne("SELECT * FROM pmw_members where id=$uid");
 </span>
 <span style="margin-left:11px;" class="title">用户昵称：<span class="num" style="color:red;"><?php echo $r['nickname'];?></span>
 </span>
-&nbsp;&nbsp;
+
 <span style="margin-left:11px;" class="title">实际盈亏：<span class="num" style="color:red;"><?php echo $yingkui;?></span>
+</span>
+
+<span style="margin-left:11px;" class="title">回水总额：<span class="num" style="color:red;"><?php echo $huishui_allmoney;?></span>
 </span>
 <a href="javascript:location.reload();" class="reload">刷新</a></div>
 

@@ -41,7 +41,7 @@ if($("#keyword").val() == "")
  return false;
 }
 window.location.href='allorder.php?keyword='+keyword;
-} 
+}
 </script>
 <?php
 //初始化参数
@@ -54,7 +54,12 @@ $keyword = isset($keyword) ? $keyword : '';
 <span class="title">下注记录</span>
 <a href="javascript:location.reload();" class="reload">刷新</a>
 </div>
-
+<div class="toolbarTab" style="margin-bottom:-12px;">
+	<div id="search" style="width:300px;" class="search"> <span class="s">
+<input name="keyword" id="keyword" type="text" class="number" style="font-size:11px;width:250px;" placeholder="请输入下注昵称或下注账号或下注期数，游戏类别" title="请输入下注昵称或下注账号或下注期数，游戏类别" />
+		</span> <span class="b"><a href="javascript:;" onclick="GetSearchs();"></a></span></div>
+	<div class="cl"></div>
+</div>
 <form name="form" id="form" method="post" action="money_save.php">
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataTable">
 		<tr align="left" class="head">
@@ -63,9 +68,9 @@ $keyword = isset($keyword) ? $keyword : '';
 			<td width="7%">下注账号</td>
 			<td width="7%">下注游戏</td>
 			<td width="7%">下注期数</td>
-			<td width="13%">下注订单号</td>
+			<td width="13%">下注内容</td>
 			<td width="9%">下注时间</td>
-			<td width="9%" align="center">下注开奖时间</td>
+			<td width="9%" align="center">剩余金额</td>
 			<td width="9%" align="center">下注总金额</td>
 			<td width="9%" align="center">开奖号码</td>
 			<td width="6%" align="center">中奖金额</td>
@@ -75,8 +80,11 @@ $keyword = isset($keyword) ? $keyword : '';
 		</tr>
 		<?php
 
-		$dopage->GetPage("SELECT a.id,b.telephone,c.gametypes,b.nickname,a.xiazhu_qishu,a.xiazhu_orderid,a.xiazhu_timestamp,a.xiazhu_kjtime,a.xiazhu_sum,a.xiazhu_jiangjin,a.xiazhu_kjstate,d.kj_varchar FROM `pmw_xiazhuorder` a inner join `pmw_members` b on a.uid=b.id inner join `pmw_game` c on a.gameid=c.id inner join `pmw_lotterynumber` d on a.xiazhu_qishu=d.kj_times",18);
-
+     if($keyword!=""){
+      $dopage->GetPage("SELECT a.id,b.telephone,c.gametypes,b.nickname,a.xiazhu_qishu,a.xiazhu_orderid,a.xiazhu_timestamp,a.xiazhu_kjtime,a.xiazhu_sum,a.xiazhu_jiangjin,a.xiazhu_kjstate,d.kj_varchar,b.money FROM `pmw_xiazhuorder` a inner join `pmw_members` b on a.uid=b.id inner join `pmw_game` c on a.gameid=c.id inner join `pmw_lotterynumber` d on a.xiazhu_qishu=d.kj_times where b.nickname like '%$keyword%' or b.telephone like '%$keyword%' or c.gametypes like '%$keyword%' or a.xiazhu_qishu like '%$keyword%'", 18);
+     }else{
+		$dopage->GetPage("SELECT a.id,b.telephone,c.gametypes,b.nickname,a.xiazhu_qishu,a.xiazhu_orderid,a.xiazhu_timestamp,a.xiazhu_kjtime,a.xiazhu_sum,a.xiazhu_jiangjin,a.xiazhu_kjstate,d.kj_varchar,b.money FROM `pmw_xiazhuorder` a inner join `pmw_members` b on a.uid=b.id inner join `pmw_game` c on a.gameid=c.id inner join `pmw_lotterynumber` d on a.xiazhu_qishu=d.kj_times",18);
+    }
 		while($row = $dosql->GetArray())
 		{
 			switch($row['xiazhu_kjstate'])
@@ -93,6 +101,8 @@ $keyword = isset($keyword) ? $keyword : '';
 					$kj_number="";
 					break;
 				}
+
+
 		?>
 		<tr align="center" class="dataTr">
 			<td height="40" class="firstCol"><input type="checkbox" name="checkid[]" id="checkid[]" value="<?php echo $row['id']; ?>" /></td>
@@ -100,9 +110,23 @@ $keyword = isset($keyword) ? $keyword : '';
 			<td><?php  echo $row['telephone'];?></td>
 			<td><?php  echo $row['gametypes']; ?></td>
 			<td><?php  echo $row['xiazhu_qishu']; ?></td>
-			<td><a style="cursor:pointer" onclick="xiazhuorder('<?php echo $row['id']; ?>')" title="查看下注详情"><?php  echo $row['xiazhu_orderid']; ?></a></td>
+			<td>
+      <?php
+      $xiazhu_orderid = $row['xiazhu_orderid'];
+      $one=1;
+      $dosql->Execute("SELECT *  FROM `pmw_xiazhucontent` where xiazhu_orderid='$xiazhu_orderid'",$one);
+
+  		while($r = $dosql->GetArray($one))
+  		{
+  		$xiazhu_type =  $r['xiazhu_type']."&nbsp;&nbsp;";
+      echo $xiazhu_type;
+      }
+
+       ?>
+
+      </td>
 			<td><?php  echo date("Y-m-d H:i:s",$row['xiazhu_timestamp']); ?></td>
-			<td align="center"><?php  echo date("Y-m-d H:i:s",$row['xiazhu_kjtime']); ?></td>
+			<td align="center" class="num"><?php  echo sprintf("%.2f",$row['money']);?></td>
 			<td  align="center"><?php echo sprintf("%.2f",$row['xiazhu_sum']); ?></td>
 			<td align="center"><?php echo $kj_number;?></td>
 			<td align="center"><?php echo sprintf("%.2f",$xiazhu_jiangjin);?></td>
@@ -111,9 +135,9 @@ $keyword = isset($keyword) ? $keyword : '';
 			  if($row['xiazhu_kjstate']!=0){
 				$yingkui= sprintf("%.2f",$xiazhu_jiangjin - $row['xiazhu_sum']);
 				if($yingkui>=0){
-				echo "<font color='#3399FF'>+".$yingkui."</font>";	
+				echo "<font color='#3399FF'>+".$yingkui."</font>";
 				}else{
-				echo "<font color='#ff0a0a'>".$yingkui."</font>";	
+				echo "<font color='#ff0a0a'>".$yingkui."</font>";
 				}
 			  }
 			?>

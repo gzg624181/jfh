@@ -39,7 +39,7 @@ layer.ready(function(){ //为了layer.ext.js加载完毕再执行
 		  <td width="6%" height="40" align="right">快投术语：</td>
 		  <td width="64%" colspan="11"><input style="width:370px;" type="text" name="name" id="name" class="input"/></td>
     </tr>
-		
+
       <tr>
 		  <td height="272" align="right">快投术语介绍：</td>
 		  <td colspan="11"><textarea name="content" id="content" class="kindeditor"></textarea>
@@ -48,8 +48,8 @@ layer.ready(function(){ //为了layer.ext.js加载完毕再执行
 				KindEditor.ready(function(K) {
 					editor = K.create('textarea[name="content"]', {
 						allowFileManager : true,
-						width:'1200px',
-						height:'365px',
+						width:'95%',
+						height:'265px',
 						extraFileUploadParams : {
 							sessionid :  '<?php echo session_id(); ?>'
 						}

@@ -20,17 +20,20 @@
 
   function changetype(){
 
-	  var options=$("#type option:selected");
+	  var options=$("#types option:selected");
 	  var typename=options.val();
+    //alert(typename);
 	  if(typename=="bankpay"){
 	  var banknames = document.getElementById("banknames");
 	  var lastbanknames = document.getElementById("lastbanknames");
 	  banknames.style.display = "";
 	  lastbanknames.style.display = "";
 	  }else{
+    var banknames = document.getElementById("banknames");
+  	var lastbanknames = document.getElementById("lastbanknames");
 	  banknames.style.display = "none";
 	  lastbanknames.style.display = "none";
-		  }
+		}
   }
 
 </script>
@@ -49,10 +52,14 @@
     </tr>
 		<tr>
 		  <td height="47" align="right">充值方式：</td>
-		  <td colspan="11"><select name="type" id="type" onchange="return changetype();" class="input">
-		         <option value="alipay"  <?php if($row['type']=='alipay'){ echo 'selected';}?>>支付宝支付</option>
-             <option value="wxpay"   <?php if($row['type']=='wxpay'){ echo 'selected';}?>>微信支付</option>
-             <option value="bankpay"  <?php if($row['type']=='bankpay'){ echo 'selected';}?>>银联卡支付</option>
+		  <td colspan="11">
+        <select name="types" id="types" onchange="return changetype();" class="input">
+      <?php
+       $dosql->Execute("SELECT * FROM pmw_bank");
+       while($r=$dosql->GetArray()){
+       ?>
+      <option <?php if($r['types']==$type){ echo "selected='selected'";}?> value="<?php echo $r['types'] ?>"><?php echo $r['typename']; ?></option>
+      <?php } ?>
 	      </select></td>
     </tr>
 		<tr>
@@ -101,8 +108,8 @@
 				KindEditor.ready(function(K) {
 					editor = K.create('textarea[name="tips"]', {
 						allowFileManager : true,
-						width:'100%',
-						height:'365px',
+						width:'90%',
+						height:'265px',
 						extraFileUploadParams : {
 							sessionid :  '<?php echo session_id(); ?>'
 						}

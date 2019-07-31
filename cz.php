@@ -45,6 +45,12 @@ $uid = empty($uid) ? 1 : intval($uid);
 		 case 'wxpay':
 				 $type = "微信充值";
 				 break;
+		 case 'qqpay':
+		 				$type = "财付通充值";
+		 				break;
+			case 'yunshanfu':
+					$type = "云闪付充值";
+								break;
 	 }
 	 ?>
 	 <ol id="transfer_list">

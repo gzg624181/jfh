@@ -50,8 +50,8 @@ $check = isset($check) ? $check : '';
 		<tr align="left" class="head">
 			<td width="3%" height="36" align="center"><input type="checkbox" name="checkid" id="checkid" onclick="CheckAll(this.checked);"></td>
 			<td align="center">快投术语名称</td>
-			<td width="71%" align="center">快投术语介绍</td>
-			<td width="9%" align="center">创建时间</td>
+			<td width="60%" align="center">快投术语介绍</td>
+			<td width="20%" align="center">创建时间</td>
 			<td width="3%" align="center">操作</td>
 		</tr>
 		<?php

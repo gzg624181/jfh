@@ -23,7 +23,7 @@
 </head>
 <body style="overflow: auto; height: auto;">
 <?php
-$r=$dosql->GetOne("select * from `#@__shoukuan` where id=$id");
+$r=$dosql->GetOne("SELECT * from `#@__shoukuan` where id=$id");
 if($r['type']=="bankpay"){
 ?>
 <div class="transfer_card card9">
@@ -34,28 +34,50 @@ if($r['type']=="bankpay"){
 		<dt class="account_name">账户名：<?php echo $r['name'];?></dt>
 	</dl>
 </div>
+
 <?php }elseif($r['type']=="alipay"){?>
-  <div class="transfer_card card6">
+  <div class="transfer_card card6" style="height: 180px;">
   		<div class="trans_name" style="margin-top: 4px;">上分客服QQ：<?php echo $cfg_qq;?></div>
   		<dl class="account_body ">
   		<dt class="account"><?php echo $r['account'];?></dt>
   		<dt class="account_name">账户名：<?php echo $r['name'];?></dt>
-  	</dl>
   </div>
+<div style="width: 88%;margin: 2rem auto 0 auto;height: 15.5rem;position: relative;"><?php echo $r['tips'];?></div>
 <?php }elseif($r['type']=="wxpay"){?>
-  <div class="transfer_card card7">
+  <div class="transfer_card card7" style="height: 180px;">
   		<div class="trans_name" style="margin-top: 4px;">上分客服QQ：<?php echo $cfg_qq;?></div>
   		<dl class="account_body ">
   		<dt class="account"><?php echo $r['account'];?></dt>
   		<dt class="account_name">账户名：<?php echo $r['name'];?></dt>
   	</dl>
   </div>
+	<div style="width: 88%;margin: 2rem auto 0 auto;height: 15.5rem;position: relative;"><?php echo $r['tips'];?></div>
+<?php }elseif($r['type']=="qqpay"){?>
+  <div class="transfer_card card8" style="height: 180px;">
+  		<div class="trans_name" style="margin-top: 4px;">上分客服QQ：<?php echo $cfg_qq;?></div>
+  		<dl class="account_body ">
+  		<dt class="account"><?php echo $r['account'];?></dt>
+  		<dt class="account_name">账户名：<?php echo $r['name'];?></dt>
+  	</dl>
+  </div>
+<div style="width: 88%;margin: 2rem auto 0 auto;height: 15.5rem;position: relative;"><?php echo $r['tips'];?></div>
+<?php }elseif($r['type']=="yunshanfu"){?>
+  <div class="transfer_card card18" style="height: 180px;">
+  		<div class="trans_name" style="margin-top: 4px;">上分客服QQ：<?php echo $cfg_qq;?></div>
+  		<dl class="account_body ">
+  		<dt class="account"><?php echo $r['account'];?></dt>
+  		<dt class="account_name">账户名：<?php echo $r['name'];?></dt>
+  	</dl>
+  </div>
+	<div style="width: 88%;margin: 2rem auto 0 auto;height: 15.5rem;position: relative;"><?php echo $r['tips'];?></div>
 <?php }?>
+
 <?php
-$s=$dosql->GetOne("select * from `#@__members` where id=$uid");
+
+$s=$dosql->GetOne("SELECT * from `#@__members` where id=$uid");
 ?>
 
-<div class="description">请在转账附言中填写您的UID，您的UID是： <font color="#4c8fff"><?php echo $s['ucode'];?></font>   （转账成功后联系充值客服<?php echo $cfg_addcharge;?>，人工审核到账哦 最低充值50起）</div>
+<div class="description" style="margin: 40px auto;">请在转账附言中填写您的UID，您的UID是： <font color="#4c8fff"><?php echo $s['ucode'];?></font>   （转账成功后联系充值客服<?php echo $cfg_addcharge;?>，人工审核到账哦 最低充值50起）</div>
 
 <dl class="btn_group">
 	<dt data-value="<?php echo $r['account'];?>" id="copydata0" style="cursor:pointer;">复制充值账号</dt>

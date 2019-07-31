@@ -60,7 +60,7 @@ if($action=="add_kuaitou"){
 	}
 }
 
-if($action="update_kuaitou"){
+if($action == "update_kuaitou"){
   $tbname="pmw_kuaitou";
   $sql = "UPDATE `$tbname` SET name='$name', content='$content' WHERE id=$id";
  if($dosql->ExecNoneQuery($sql))
@@ -73,11 +73,11 @@ if($action="update_kuaitou"){
 
 if($action == 'del6'){
 	$tbname= "pmw_kuaitou";
-	$gourls = "kuaitou.php";
-	$sql = "delete  from `$tbname` where id=$id";
+	$sql = "DELETE  from `$tbname` where id=$id";
 	$dosql->ExecNoneQuery($sql);
-	header("location:$gourls");
-	exit();
+  $gourl="kuaitou.php";
+  header("location:$gourl");
+  exit();
 }
 
 //修改招聘信息

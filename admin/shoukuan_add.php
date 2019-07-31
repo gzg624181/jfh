@@ -46,9 +46,15 @@
 		<tr>
 		  <td height="47" align="right">充值方式：</td>
 		  <td colspan="11"><select name="type" id="type" class="input" onchange="return changetype();">
-		    <option value="alipay">支付宝支付</option>
-            <option value="wxpay">微信支付</option>
-            <option value="bankpay">银联卡支付</option>
+
+        <?php
+         $dosql->Execute("SELECT * FROM pmw_bank");
+         while($r=$dosql->GetArray()){
+         ?>
+        <option  value="<?php echo $r['types'] ?>"><?php echo $r['typename']; ?></option>
+        <?php } ?>
+  	      </select>
+
 	      </select></td>
     </tr>
 		<tr>

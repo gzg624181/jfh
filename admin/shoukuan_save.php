@@ -26,7 +26,7 @@ if($action == 'add')
     $addtime=time();
     if($type="bankpay"){
     $sql = "INSERT INTO `$tbname` (name, account, type, online, bankname, lastbankname, tips, addtime, orderid) VALUES ('$name', '$account', '$type', $online, '$bankname', '$lastbankname', '$tips', $addtime, $orderid)";
-  }elseif($type=="alipay" || $type=="wxpay"){
+    }elseif($type=="alipay" || $type=="wxpay"){
     $sql = "INSERT INTO `$tbname` (name, account, type, online,  tips, addtime, orderid) VALUES ('$name', '$account', '$type', $online, '$tips', $addtime, $orderid)";
     }
 		if($dosql->ExecNoneQuery($sql))
@@ -40,16 +40,19 @@ if($action == 'add')
 //修改充值简介
 else if($action == 'update'){
   $addtime=time();
-  if($type="bankpay"){
-	$sql = "UPDATE `$tbname` SET name='$name',account='$account',type='$type',online=$online,bankname='$bankname',lastbankname='$lastbankname',tips='$tips',orderid=$orderid,addtime=$addtime WHERE id=$id";
+
+  if($types=="bankpay"){
+	$sql = "UPDATE `$tbname` SET name='$name',account='$account',type='bankpay',online=$online,bankname='$bankname',lastbankname='$lastbankname',tips='$tips',orderid=$orderid,addtime=$addtime WHERE id=$id";
   }else{
-  $sql = "UPDATE `$tbname` SET name='$name',account='$account',type='$type',online=$online,tips='$tips',orderid=$orderid,addtime=$addtime WHERE id=$id";
+  $sql = "UPDATE `$tbname` SET name='$name',account='$account',type='$types',online=$online,tips='$tips',orderid=$orderid,addtime=$addtime WHERE id=$id";
   }
+
 	if($dosql->ExecNoneQuery($sql))
 	{
 		header("location:$gourl");
 		exit();
 	}
+
 }
 
 //删除游戏列表介绍

@@ -278,8 +278,8 @@ if($dosql->GetTotalRow() == 0)
 <div class="bottomToolbar"><span class="selArea"><span>选择：</span>
 <a href="javascript:CheckAll(true);">全部</a> -
 <a href="javascript:CheckAll(false);">无</a> -
-<a href="javascript:DelAllNone('member_save.php');" onclick="return  ConfDelAll(0);">删除</a>-
-<a href="javascript:ConfsendReg('member_save.php');" onclick="return ConfDelAll(4);">发放注册奖励</a></span></div>
+<a href="javascript:DelAllNone('member_save.php');" onclick="return  ConfDelAll(0);">删除</a>
+</span></div>
 <div class="page"> <?php echo $dopage->GetList(); ?> </div>
 <?php
 

@@ -9,13 +9,14 @@
 <script type="text/javascript" src="templates/js/jquery.min.js"></script>
 <script type="text/javascript" src="templates/js/forms.func.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
 <script type="text/javascript" src="layer/layer.js"></script>
 <script>
 function GetSearchs(){
 var keyword= document.getElementById("keyword").value;
 if($("#keyword").val() == "")
 {
- layer.alert("请输入开奖期数！",{icon:0});
+ alert("请输入回水操作日期！");
  $("#keyword").focus();
  return false;
 }
@@ -26,6 +27,8 @@ window.location.href='fanshui.php?keyword='+keyword;
 	// alert(v)
 	window.location.href='win_lost.php?check='+v;
 	}
+
+
 </script>
 <?php
 //初始化参数
@@ -37,12 +40,27 @@ $check = isset($check) ? $check : '';
 </head>
 <body>
 <?php
+if($keyword==""){
 $xiazhu_ymd=date("Y-m-d",strtotime("-1 day"));
-//$xiazhu_ymd=date("Y-m-d");
+}else{
+$xiazhu_ymd =$keyword;
+}
+//计算所有会员的会员总额
+$k = $dosql->GetOne("SELECT SUM(money) as money from pmw_huishui where tj_time='$xiazhu_ymd'");
+if($k['money']!= NULL){
+$huishui_allmoney = $k['money'];
+}else{
+$huishui_allmoney = 0;
+}
 ?>
 
-<div class="topToolbar"> <span class="title">当前回水操作日期：<span class="num" style="color:red;"><?php echo $xiazhu_ymd;?></span>
-</span> <a href="javascript:location.reload();" class="reload">刷新</a></div>
+<div class="topToolbar">
+<span class="title">当前回水操作日期：<span class="num" style="color:red;"><?php echo $xiazhu_ymd;?></span>
+</span>
+
+<span class="title" style="margin-left:11px;">今天回水总额：<span class="num" style="color:red;"><?php echo $huishui_allmoney;?></span>
+</span>
+ <a href="javascript:location.reload();" class="reload">刷新</a></div>
 
 </div>
 <div class="toolbarTab" style="margin-bottom:5px;">
@@ -57,16 +75,25 @@ $xiazhu_ymd=date("Y-m-d",strtotime("-1 day"));
 			<td width="2%" height="36" align="center" class="firstCol"><input type="checkbox" name="checkid" id="checkid" onclick="CheckAll(this.checked);"></td>
 			<td width="5%" align="center">推荐码ID</td>
 			<td width="13%" align="center">会员昵称</td>
-			<td width="12%" align="center">会员账号</td>
-			<td width="20%" align="center">统计时间</td>
-			<td width="14%" align="center">下注总金额</td>
-			<td width="14%" align="center">中奖总金额</td>
-			<td width="12%" align="center">实际盈亏</td>
-			<td width="10%" align="center">操作</td>
+			<td width="10%" align="center">会员账号</td>
+			<td width="10%" align="center">统计时间</td>
+			<td width="10%" align="center">下注总金额</td>
+			<td width="10%" align="center">中奖总金额</td>
+			<td width="10%" align="center">实际盈亏</td>
+      <td width="12%" align="center">回水总金额</td>
+      <td width="12%" align="center">是否已设置回水</td>
+			<td width="12%" align="center">操作</td>
 		</tr>
 		<?php
 		if($keyword!=""){              //选中具体的日期
-	  $dopage->GetPage("SELECT * FROM `#@__lotterynumber` where kj_times='$keyword'");
+    $torrow  =strtotime(date("Y-m-d",strtotime("-1 day")));
+    $keywords =strtotime($keyword);
+      if($keywords <= $torrow){
+  	  $dopage->GetPage("SELECT a.*,b.ucode,b.nickname,b.telephone FROM `#@__xiazhuorder` a inner join pmw_members b on a.uid=b.id where a.xiazhu_ymd='$keyword' group by a.uid ");
+      }else{
+        ShowMsg('抱歉，日期选择错误,只能操作今天之后的回水日期','-1');
+    		exit();
+      }
 		}else{
 		$dopage->GetPage("SELECT a.*,b.ucode,b.nickname,b.telephone FROM `#@__xiazhuorder` a inner join pmw_members b on a.uid=b.id where a.xiazhu_ymd='$xiazhu_ymd' group by a.uid ");
 		}
@@ -84,6 +111,15 @@ $xiazhu_ymd=date("Y-m-d",strtotime("-1 day"));
 
       $yingkui = $xiazhu_jiangjin - $xiazhu_sum;
 
+      //计算单个会员当天回水的总额
+      $s = $dosql->GetOne("SELECT SUM(money) as money from pmw_huishui where uid=$uid and tj_time='$xiazhu_ymd'");
+      if($s['money']!= NULL){
+      $huishui_money = $s['money'];
+      $huishui_state = "<i title='已进行回水操作' style='color:#509ee1' class='fa fa-check'></i>";
+      }else{
+      $huishui_money = "";
+      $huishui_state = "";
+      }
 		?>
 		<tr align="left" class="dataTr">
 			<td height="60" align="center" class="firstCol"><input type="checkbox" name="checkid[]" id="checkid[]" value="<?php echo $row['id']; ?>" /></td>
@@ -93,7 +129,9 @@ $xiazhu_ymd=date("Y-m-d",strtotime("-1 day"));
 			<td align="center" class="number"><?php echo $xiazhu_ymd; ?></td>
 			<td align="center" class="num" style="color:#990808"><?php echo $xiazhu_sum; ?></td>
 			<td align="center" class="num" style="color:#990808"><?php  echo $xiazhu_jiangjin; ?></td>
-				<td align="center" class="num" style="color:#30b70f"><?php  echo $yingkui; ?></td>
+			<td align="center" class="num" style="color:#30b70f"><?php  echo $yingkui; ?></td>
+      <td align="center" class="num" style="color:#30b70f"><?php  echo $huishui_money;?></td>
+      <td align="center" class="num" style="color:#30b70f"><?php echo $huishui_state; ?></td>
 			<td align="center">
 
         <span>
@@ -136,5 +174,17 @@ if($cfg_quicktool == 'Y')
 <?php
 }
 ?>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script>
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  laydate.render({
+    elem: '#keyword'
+  });
+
+});
+
+
+</script>
 </body>
 </html>

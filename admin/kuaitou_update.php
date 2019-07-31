@@ -25,10 +25,10 @@ $row = $dosql->GetOne("SELECT * FROM `pmw_kuaitou` WHERE `id`=$id");
 <form name="form" id="form" method="post" action="game_save.php" onsubmit="return cfm_kuaitou();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
 		<tr>
-		  <td width="6%" height="40" align="right">快投术语：</td>
+		  <td width="9%" height="40" align="right">快投术语：</td>
 		  <td width="64%" colspan="11"><input style="width:370px;" type="text" name="name" id="name" class="input" value="<?php echo $row['name'];?>"/></td>
     </tr>
-		
+
       <tr>
 		  <td height="272" align="right">快投术语介绍：</td>
 		  <td colspan="11"><textarea name="content" id="content" class="kindeditor"><?php echo $row['content'];?></textarea>
@@ -37,8 +37,8 @@ $row = $dosql->GetOne("SELECT * FROM `pmw_kuaitou` WHERE `id`=$id");
 				KindEditor.ready(function(K) {
 					editor = K.create('textarea[name="content"]', {
 						allowFileManager : true,
-						width:'1200px',
-						height:'365px',
+						width:'90%',
+						height:'265px',
 						extraFileUploadParams : {
 							sessionid :  '<?php echo session_id(); ?>'
 						}
