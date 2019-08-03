@@ -52,6 +52,31 @@ else if($action == 'charge')
   }
 }
 
+//后台减分
+elseif($action=="reduce"){
+  if($reducemoney > $money){
+    ShowMsg("减去分数不能大于账号余额！",-1);
+  }else{
+    //将账户的余额减去要减掉的分数
+    $dosql->ExecNoneQuery("UPDATE pmw_members set `money`=`money` - $reducemoney where id=$mid");
+
+    //将此条记录保存下来
+    $dosql->ExecNoneQuery("INSERT INTO pmw_reducemoney (mid,ucode,telephone,lastmoney,reducemoney,reducetime) values ($mid,$ucode,'$telephone','$money','$reducemoney','$reducetime')");
+    ShowMsg("减分成功！",$gourl);
+    exit();
+  }
+
+}
+
+//查询玩家具体信息
+
+elseif($action=="search"){
+
+
+
+
+
+}
 else if($action == 'del3'){
   $dosql->QueryNone("DELETE FROM `#@__record` WHERE id=$id");
   $gourl="allorder_sh.php";
@@ -59,19 +84,37 @@ else if($action == 'del3'){
   exit();
 
 }elseif($action =="quick_scroing"){
+
   if(is_numeric($keyword)){
     $r=$dosql->GetOne("SELECT id FROM `#@__members` where telephone='$keyword' or ucode=$keyword");
     if(is_array($r)){
     $id = $r['id'];
-    $gourl= "quick_scroing_content.php?id=".$id;
+    if($type=="search"){
+    $gourl= "member_content.php?id=".$id."&type=".$type;
+    }else{
+    $gourl= "quick_scroing_content.php?id=".$id."&type=".$type;
+    }
     header("location:$gourl");
     }else{
-      ShowMsg("搜索关键字暂未查到会员信息，请重新输入!",-1);
+      ShowMsg("搜索用户账号或推荐码关键字暂未查到会员信息，请重新输入!",-1);
     }
   }else{
-      ShowMsg("请输入用户账号或者推荐码进行查询!",-1);
+    $r=$dosql->GetOne("SELECT id FROM `#@__members` where nickname='$keyword'");
+    if(is_array($r)){
+    $id = $r['id'];
+    if($type=="search"){
+    $gourl= "member_content.php?id=".$id."&type=".$type;
+    }else{
+    $gourl= "quick_scroing_content.php?id=".$id."&type=".$type;
+    }
+    header("location:$gourl");
+    }else{
+      ShowMsg("搜索用户昵称关键字暂未查到会员信息，请重新输入!",-1);
+    }
+      ShowMsg("请输入用户账号或者推荐码或昵称进行查询!",-1);
 
   }
+
 }elseif($action == "huishui"){
   //将回水的记录保存下来，同时向用户的账号里面增加回水的金额，向账户明细里面保存记录
   //1.向用户的账号里面添加回水的金额

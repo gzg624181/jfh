@@ -4,6 +4,7 @@ $username=$_SESSION['admin'];
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="refresh" content="20">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>会员管理</title>
 <link href="templates/style/admin.css" rel="stylesheet" type="text/css" />
@@ -228,7 +229,9 @@ $num=$dosql->GetTotalRow($one);
                 <td align="center" ><?php echo $row['getname']; ?></td>
                 <td align="center"><?php echo $devicetype; ?></td>
                 <td align="center"><?php echo $row['qq']; ?></td>
-                <td align="center" class="num" style="color:red;"><?php echo sprintf("%.2f",$row['money']); ?></td>
+                <td align="center" class="num" style="color:red;">
+                  <?php echo sprintf("%.2f",$row['money']); ?>
+                </td>
                 <td align="center"><?php
                 if($row['getcity']=="" || $row['getcity']=="--"){
                 // echo get_city($row['regip']);

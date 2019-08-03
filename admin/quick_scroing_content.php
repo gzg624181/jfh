@@ -37,19 +37,27 @@ function tuijian(){
 		return false;
 	}
 	}
+
 </script>
 </head>
 <body>
 <?php
 //初始化参数
 $adminlevel=$_SESSION['adminlevel'];
+if($type=="add"){
+$typename = "快速充值上分";
+}else{
+$typename = "快速减分操作";
+}
 ?>
 <input type="hidden" name="adminlevel" id="adminlevel" value="<?php echo $adminlevel;?>" />
-<div class="topToolbar"> <span class="title" style="text-align:center;">快速充值上分</span> <a title="刷新" href="javascript:location.reload();" class="reload" style="float:right; margin-right:35px;"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+
+<div class="topToolbar"> <span class="title" style="text-align:center;"><?php echo $typename; ?></span> <a title="刷新" href="javascript:location.reload();" class="reload" style="float:right; margin-right:35px;"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
 <?php
 $s=$dosql->GetOne("SELECT * from `#@__members` where id=$id");
 $qrcode=$s['qrcode'];
 ?>
+<?php if($type=="add"){ ?>
 <form name="form" id="form" method="post" action="member_save.php" onsubmit="return tuijian();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
 		<tr>
@@ -98,5 +106,47 @@ $qrcode=$s['qrcode'];
         <input type="hidden" name="mid" id="mid" value="<?php echo $id;?>" />
   </div>
 </form>
+<?php }else{ ?>
+  <form name="form" id="form" method="post" action="member_save.php">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="formTable">
+  		<tr>
+  		  <td height="40" align="right">减分会员UID：</td>
+  		  <td width="78%"><input type="text" name="ucode" id="ucode" value="<?php echo $s['ucode'];?>" readonly="readonly" class="input"/></td>
+      </tr>
+  	<tr>
+  			<td width="22%" height="40" align="right">减分会员账号：</td>
+  			<td><input type="text" name="telephone" id="telephone" value="<?php echo $s['telephone'];?>" readonly="readonly" class="input"/></td>
+  	</tr>
+    <tr>
+    <td height="40" align="right">账户余额：</td>
+    <td><input type="text" name="money" id="money" value="<?php echo $s['money'];?>" readonly="readonly" class="input"/></td>
+    </tr>
+  		<tr>
+  		  <td height="40" align="right">减去分数：</td>
+  		  <td><input type="text" onblur="reduce()" name="reducemoney" required id="reducemoney" placeholder="请输入减去的金额" value="" class="input"/></td>
+      </tr>
+  		<tr>
+  		  <td height="40" align="right">减分时间：</td>
+  		  <td><input type="text" name="reducetime" id="reducetime" class="inputms" value="<?php echo GetDateTime(time()); ?>" readonly="readonly" />
+  				<script type="text/javascript" src="plugin/calendar/calendar.js"></script>
+  		  <script type="text/javascript">
+  				Calendar.setup({
+  					inputField     :    "reducetime",
+  					ifFormat       :    "%Y-%m-%d %H:%M:%S",
+  					showsTime      :    true,
+  					timeFormat     :    "24"
+  				});
+  				</script></td>
+      </tr>
+
+    </table>
+  	<div class="formSubBtn" style="float:left; margin-left:95px;margin-top: 15px;">
+           <input type="submit" class="submit" value="提交" />
+      		<input type="button" class="back" value="返回" onclick="history.go(-1);" />
+      		<input type="hidden" name="action" id="action" value="reduce" />
+          <input type="hidden" name="mid" id="mid" value="<?php echo $id;?>" />
+    </div>
+  </form>
+<?php } ?>
 </body>
 </html>

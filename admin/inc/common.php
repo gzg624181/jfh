@@ -470,6 +470,19 @@ function get_times()
 
 }
 
+// 计算会员今日充值总金额
+
+function charge_sums($mid,$ymd){
+	global $dosql;
+	$r =$dosql->GetOne("SELECT SUM(chargenumber) as money FROM pmw_charge where mid=$mid and charge_ymd='$ymd'");
+	if($r['money']==NULL){
+		$money = 0;
+	}else{
+	$money = $r['money'];
+  }
+	return $money;
+}
+
 
 
 

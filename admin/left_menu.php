@@ -59,9 +59,5 @@
 <div class="bGradient"></div>
 <div class="copyright">@<?php echo $cfg_shortname;?>
 </div>
-
-<div class="tabMenu">
-	<a href="left_menu_user_simple.php" title="切换到用户菜单" class="model"></a>
-</div>
 </body>
 </html>

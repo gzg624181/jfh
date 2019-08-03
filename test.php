@@ -270,26 +270,41 @@ echo $today_end,'<br>';//今天结束时间
 
 
 
-$w = date('w',strtotime($today));
-
-
-$this_mon = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-$w+1,date('Y')));
-
-$this_sun = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')+(7-$w),date('Y')));
-
-
-$this_mon1 = date("Y-m-d",strtotime($this_mon)-7*24*3600);
-
-$this_sun1 = date("Y-m-d",strtotime($this_sun)-7*24*3600);
-
-echo $this_mon1,'<br>';//本周一时间
-
-echo $this_sun1,'<br>';//本周日时间
-
-  echo "===============================<br></br>";
-  $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
-  echo $BeginDate;
-  echo "<br/>";
-  echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
-  echo "<br/>";
+// $w = date('w',strtotime($today));
+//
+//
+// $this_mon = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')-$w+1,date('Y')));
+//
+// $this_sun = date('Y-m-d H:i:s',mktime(0,0,0,date('m'),date('d')+(7-$w),date('Y')));
+//
+//
+// $this_mon1 = date("Y-m-d",strtotime($this_mon)-7*24*3600);
+//
+// $this_sun1 = date("Y-m-d",strtotime($this_sun)-7*24*3600);
+//
+// echo $this_mon1,'<br>';//本周一时间
+//
+// echo $this_sun1,'<br>';//本周日时间
+//
+//   echo "===============================<br></br>";
+//   $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
+//   echo $BeginDate;
+//   echo "<br/>";
+//   echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
+//   echo "<br/>";
 ?>
+<script language=JavaScript>
+function change(s){
+var tmpobj=document.getElementById(s);
+var d=new Date();
+tmpobj.innerHTML=s+'-'+d.getTime();
+}
+</script>
+<table>
+ <tr><td id="td1">old1</td></tr>
+ <tr><td id="td2">old2</td></tr>
+ <tr><td>
+<a href="JavaScript:change('td1');">link1</a>&nbsp;<a href="JavaScript:change('td2');">link2</a>
+ </td>
+ </tr>
+</table>

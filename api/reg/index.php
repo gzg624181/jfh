@@ -32,7 +32,7 @@ $regtime=time();
 $regip=GetIP();
 $password=md5(md5("$password"));
 $ucode=getcode();
-$links=$cfg_weburl."/?code=".$ucode;
+$links=$cfg_beiyong."/?code=".$ucode;
 $qrcode=createQr($links);
 $getcity=get_city($regip);
 $sql = "INSERT INTO `#@__members` (telephone,password,nickname,ucode,bcode,regtime,regip,qrcode,ymdtime,getcity,links) VALUES ('$telephone','$password','$nickname','$ucode','$bcode',$regtime,'$regip','$qrcode','$Version','$getcity','$links')";

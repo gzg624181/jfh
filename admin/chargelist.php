@@ -23,16 +23,33 @@
 	   });
 
    }
+   function GetSearchs(){
+   var keyword= document.getElementById("keyword").value;
+   if($("#keyword").val() == "")
+   {
+    layer.alert("请输入搜索内容！",{icon:0});
+    $("#keyword").focus();
+    return false;
+   }
+   window.location.href='chargelist.php?keyword='+keyword;
+   }
 </script>
 <?php
 //初始化参数
 $check = isset($check) ? $check : '';
+$keyword = isset($keyword) ? $keyword : '';
 ?>
 </head>
 <body>
 <div class="topToolbar">
 <span class="title">充值记录</span>
 <a href="javascript:location.reload();" class="reload">刷新</a>
+</div>
+<div class="toolbarTab" style="margin-bottom:-12px;">
+	<div id="search" class="search"> <span class="s">
+<input name="keyword" id="keyword" type="text" class="number" style="font-size:11px;" placeholder="请输入用户账号或者昵称或uid码" title="请输入用户账号或者昵称或UID码" />
+		</span> <span class="b"><a href="javascript:;" onclick="GetSearchs();"></a></span></div>
+	<div class="cl"></div>
 </div>
 <form name="form" id="form" method="post" action="money_save.php">
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataTable">
@@ -57,6 +74,8 @@ $check = isset($check) ? $check : '';
     }elseif($check=="tomorrowchongzhi"){
     $tomorrowtime=date("Y-m-d",strtotime("-1 days"));
     $dopage->GetPage("SELECT a.telephone,a.money,a.nickname,a.ucode,b.chargenumber,b.chargegive,b.chargetime,b.chargetype,b.chargeorder,b.id FROM `pmw_members` a inner join `pmw_charge` b on a.id=b.mid and  b.charge_ymd='$tomorrowtime'",15);
+    }elseif($keyword!=""){
+      $dopage->GetPage("SELECT a.telephone,a.money,a.nickname,a.ucode,b.chargenumber,b.chargegive,b.chargetime,b.chargetype,b.chargeorder,b.id FROM `pmw_members` a inner join `pmw_charge` b on a.id=b.mid WHERE a.telephone='$keyword' or a.ucode='$keyword' or a.nickname='$keyword'",15);
     }else{
 		$dopage->GetPage("SELECT a.telephone,a.money,a.nickname,a.ucode,b.chargenumber,b.chargegive,b.chargetime,b.chargetype,b.chargeorder,b.id FROM `pmw_members` a inner join `pmw_charge` b on a.id=b.mid",15);
     }
