@@ -47,7 +47,7 @@ $adminlevel=$_SESSION['adminlevel'];
 <input type="hidden" name="adminlevel" id="adminlevel" value="<?php echo $adminlevel;?>" />
 <div class="topToolbar"> <span class="title" style="text-align:center;">后台手动充值上分</span> <a title="刷新" href="javascript:location.reload();" class="reload" style="float:right; margin-right:35px;"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
 <?php
-$s=$dosql->GetOne("select * from `#@__members` where id=$id");
+$s=$dosql->GetOne("SELECT * from `#@__members` where id=$id");
 $qrcode=$s['qrcode'];
 ?>
 <form name="form" id="form" method="post" action="member_save.php" onsubmit="return tuijian();">
@@ -73,6 +73,10 @@ $qrcode=$s['qrcode'];
 		<tr>
 		  <td height="40" align="right">充值金额：</td>
 		  <td><input type="text" name="money" id="money" placeholder="请输入充值金额" value="" class="input"/></td>
+    </tr>
+    <tr>
+      <td height="40" align="right">赠送金额：</td>
+      <td><input type="text" name="chargegive" id="chargegive" placeholder="请输入赠送金额,不赠送则不需要填写" value="" class="input"/></td>
     </tr>
 		<tr>
 		  <td height="40" align="right">充值时间：</td>

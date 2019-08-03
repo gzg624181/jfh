@@ -58,7 +58,7 @@ layer.open({
   title: '',
   maxmin: true,
   shadeClose: true, //点击遮罩关闭	层
-  area : ['480px' , '320px'],
+  area : ['480px' , '330px'],
   content: 'pay_add.php?id='+id,
   });
 }

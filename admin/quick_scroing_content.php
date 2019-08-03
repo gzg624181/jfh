@@ -45,9 +45,11 @@ function tuijian(){
 //初始化参数
 $adminlevel=$_SESSION['adminlevel'];
 if($type=="add"){
-$typename = "快速充值上分";
-}else{
-$typename = "快速减分操作";
+$typename = "快速上分";
+}elseif($type=="reduce"){
+$typename = "快速减分";
+}elseif($type=="search"){
+$typename = "查询玩家信息";
 }
 ?>
 <input type="hidden" name="adminlevel" id="adminlevel" value="<?php echo $adminlevel;?>" />
@@ -64,9 +66,21 @@ $qrcode=$s['qrcode'];
 		  <td height="40" align="right">充值会员UID：</td>
 		  <td width="78%"><input type="text" name="ucode" id="ucode" value="<?php echo $s['ucode'];?>" readonly="readonly" class="input"/></td>
     </tr>
+    <tr>
+		  <td height="40" align="right">充值会员昵称：</td>
+		  <td width="78%"><input type="text" name="nickname" id="nickname" value="<?php echo $s['nickname'];?>" readonly="readonly" class="input"/></td>
+    </tr>
 	<tr>
 			<td width="22%" height="40" align="right">充值会员账号：</td>
 			<td><input type="text" name="telephone" id="telephone" value="<?php echo $s['telephone'];?>" readonly="readonly" class="input"/></td>
+	</tr>
+  <tr>
+			<td width="22%" height="40" align="right">注册时间：</td>
+			<td><input type="text" name="ymdtime" id="ymdtime" value="<?php echo $s['ymdtime'];?>" readonly="readonly" class="input"/></td>
+	</tr>
+  <tr>
+			<td width="22%" height="40" align="right">账号剩余余额：</td>
+			<td><input type="text" name="lastmoney" id="lastmoney" value="<?php echo $s['money'];?>" readonly="readonly" class="input"/></td>
 	</tr>
   <tr>
   <td height="40" align="right">选择充值类型：</td>
@@ -82,6 +96,10 @@ $qrcode=$s['qrcode'];
 		<tr>
 		  <td height="40" align="right">充值金额：</td>
 		  <td><input type="text" name="money" id="money" placeholder="请输入充值金额" value="" class="input"/></td>
+    </tr>
+    <tr>
+		  <td height="40" align="right">充值金额：</td>
+		  <td><input type="text" name="chargegive" id="chargegive" placeholder="请输入充值金额,不赠送则不需要填写" value="" class="input"/></td>
     </tr>
 		<tr>
 		  <td height="40" align="right">充值时间：</td>

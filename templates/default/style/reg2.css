@@ -137,8 +137,8 @@ textarea {
   font-weight: bold;
 }
 .list-wrap ul.list li input:focus{
-	border: 1px solid #fff;
-	color: #fff;
+	border: 1px solid #666;
+	color: #666;
 }
 .list-wrap ul.list li span{vertical-align: middle;}
 .list-wrap ul.list li .name{

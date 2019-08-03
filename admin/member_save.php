@@ -36,10 +36,14 @@ if($action == 'update')
 //后台充值
 else if($action == 'charge')
 {
-  $chargegive=$cfg_chargegive;  //充值赠送
+  //充值赠送，如果不赠送则为空，如果有赠送的则将充值的记录保存到数据库中去
+  if($chargegive==""){
+    $chargegive == 0;
+  }
   $randnumber=rand(100000,999999);
   $chargeorder=date("YmdHis").$randnumber;
   $charge_ymd=substr($chargetime,0,10);
+
   $sql = "INSERT INTO `$tbnames` (mid, chargeuid, chargenumber, chargegive, chargetime, chargetype, chargetelephone,randnumber,chargeorder,charge_ymd) VALUES ($mid, $ucode, '$money', '$chargegive', '$chargetime' , $chargetype, '$telephone',$randnumber,'$chargeorder','$charge_ymd')";
   $addmoney=$money + $chargegive;
   if($dosql->ExecNoneQuery($sql))
@@ -47,6 +51,12 @@ else if($action == 'charge')
     $dosql->ExecNoneQuery("UPDATE `$tbname` SET `money`=`money` + '$addmoney' WHERE `id`= $mid");
     $gourl="success.php?randnumber=".$randnumber;
     records($money,"recharge",$mid,$chargeorder);
+    // 如果赠送的金额不为空，则记录下来
+    if($chargegive!=""){
+    $randnumber=rand(100000,999999);
+    $chargeorder=date("YmdHis").$randnumber;
+    gives($chargegive,"give",$mid,$chargeorder);
+    }
     header("location:$gourl");
     exit();
   }

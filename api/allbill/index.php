@@ -59,6 +59,8 @@ if(isset($token) && $token==$cfg_auth_key){
     $list[$i]['title']="业务";
     }elseif($types=="active"){
     $list[$i]['title']="活动";
+  }elseif($types=="give"){
+    $list[$i]['title']="系统赠送";
     }
     $list[$i]['money_list']=$row['money_list'];
   }
@@ -83,6 +85,8 @@ if(isset($token) && $token==$cfg_auth_key){
     $Data['name']="业务记录";
   }elseif($type=="active"){
     $Data['name']="活动记录";
+  }elseif($type=="give"){
+    $Data['name']="赠送记录";
   }
     $Data['list']=$list;
     $State = 1;

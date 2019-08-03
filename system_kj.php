@@ -120,30 +120,36 @@
               if($gameid==4){ //加拿大28  2.0开奖结果算法
                 $tbname="pmw_xiazhucontent";
                if(check_str($str,$lb."/")){
+                    //买小或单，开奖结果为13， :1.6倍（含本金）
+                   if((check_str($str,"小/") && $kj_he==13) ||
+                           (check_str($str,"单/") && $kj_he==13) ){
+                     $b  += $xiazhu_money * 1.6;
+                     $kj_content= $xiazhu_money * 1.6;
+                     $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1.6' WHERE id=$id");
+                   //买大或双，开奖结果为14，：1.6倍（含本金）
+                 }elseif((check_str($str,"大/") && $kj_he==14) ||
+                         (check_str($str,"双/") && $kj_he==14) ){
+                     $b  += $xiazhu_money * 1.6;
+                     $kj_content= $xiazhu_money * 1.6;
+                     $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1.6' WHERE id=$id");
+
                    //买小单，开奖结果为13：回本
-                   if(check_str($str,"小单/") && $kj_he==13){
+                   }
+                   elseif(check_str($str,"小单/") && $kj_he==13){
                     $b  += $xiazhu_money * 1;
                     $kj_content= $xiazhu_money * 1;
                     $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1' WHERE id=$id");
+                  }
+
                    //买大双，开奖结果为14：回本
-                  }elseif(check_str($str,"大双/") && $kj_he==14){
+                  elseif(check_str($str,"大双/") && $kj_he==14){
                     $b  += $xiazhu_money * 1;
                     $kj_content= $xiazhu_money * 1;
                     $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1' WHERE id=$id");
-                  //买小或单，开奖结果为13， :1.6倍（含本金）
-                  }elseif((check_str($str,"小/") && $kj_he==13) ||
-                          (check_str($str,"单/") && $kj_he==13) ){
-                    $b  += $xiazhu_money * 1.6;
-                    $kj_content= $xiazhu_money * 1.6;
-                    $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1.6' WHERE id=$id");
-                  //买大或双，开奖结果为14，：1.6倍（含本金）
-                }elseif((check_str($str,"大/") && $kj_he==14) ||
-                        (check_str($str,"双/") && $kj_he==14) ){
-                    $b  += $xiazhu_money * 1.6;
-                    $kj_content= $xiazhu_money * 1.6;
-                    $dosql->ExecNoneQuery("UPDATE `$tbname` SET kj_jieguo=1, kj_content='$kj_content',new_beilv='1.6' WHERE id=$id");
-                  //下注小单/大双 开13/14中奖回本
-                }elseif((check_str($str,"小单/") && $kj_he==13) ||
+
+                  }
+                 //下注小单/大双 开13/14中奖回本
+                elseif((check_str($str,"小单/") && $kj_he==13) ||
                         (check_str($str,"大双/") && $kj_he==14) ){
                      $b  += $xiazhu_money * 1;
                      $kj_content= $xiazhu_money * 1;

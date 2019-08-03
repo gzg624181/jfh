@@ -107,7 +107,7 @@ $huishui_allmoney = 0;
 
       $xiazhu_sum = $r['xiazhu_sum'];
 
-      $xiazhu_jiangjin = $r['xiazhu_jiangjin'];
+      $xiazhu_jiangjin = sprintf("%.2f",$r['xiazhu_jiangjin']);
 
       $yingkui = $xiazhu_jiangjin - $xiazhu_sum;
 
